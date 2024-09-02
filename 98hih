@@ -1,0 +1,66 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class BankBalanceApp {
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Bank Balance Application");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 200);
+        
+        JPanel panel = new JPanel();
+        JLabel balanceLabel = new JLabel("Enter Initial Balance: ");
+        JTextField balanceField = new JTextField(10);
+        JButton submitButton = new JButton("Submit");
+        JLabel currentBalanceLabel = new JLabel("Current Balance: $0.00");
+        
+        submitButton.addActionListener(new ActionListener() {
+            double balance = 0.0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input = balanceField.getText();
+                if (!input.isEmpty()) {
+                    balance = Double.parseDouble(input);
+                    currentBalanceLabel.setText("Current Balance: $" + String.format("%.2f", balance));
+                }
+            }
+        });
+
+        panel.add(balanceLabel);
+        panel.add(balanceField);
+        panel.add(submitButton);
+        panel.add(currentBalanceLabel);
+
+        JButton depositButton = new JButton("Deposit");
+        panel.add(depositButton);
+        depositButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String depositAmount = JOptionPane.showInputDialog("Enter deposit amount:");
+                if (!depositAmount.isEmpty()) {
+                    balance += Double.parseDouble(depositAmount);
+                    currentBalanceLabel.setText("Current Balance: $" + String.format("%.2f", balance));
+                }
+            }
+        });
+
+        JButton withdrawButton = new JButton("Withdraw");
+        panel.add(withdrawButton);
+        withdrawButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String withdrawAmount = JOptionPane.showInputDialog("Enter withdrawal amount:");
+                if (!withdrawAmount.isEmpty()) {
+                    balance -= Double.parseDouble(withdrawAmount);
+                    currentBalanceLabel.setText("Current Balance: $" + String.format("%.2f", balance));
+                }
+            }
+        });
+
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+}
